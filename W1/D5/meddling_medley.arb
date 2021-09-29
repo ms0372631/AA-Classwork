@@ -1,0 +1,19 @@
+def duos(str)
+    res = 0
+    f = false
+    (0...str.length - 1).each do |i|
+        if str[i] == str[i + 1]
+            res += 1 if !f
+            f = true
+        else 
+            f = false
+        end
+    end
+    res 
+end
+
+p duos('bootcamp')      # 1
+p duos('wxxyzz')        # 2
+p duos('hoooraay')      # 3
+p duos('dinosaurs')     # 0
+p duos('e')             # 0

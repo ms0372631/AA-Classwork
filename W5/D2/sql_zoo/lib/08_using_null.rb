@@ -146,5 +146,6 @@ def teachers_and_divisions_two
       END AS dept_name
     FROM
       teachers
+      
   SQL
 end

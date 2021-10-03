@@ -14,6 +14,7 @@ def highest_gdp
   # Which countries have a GDP greater than every country in Europe? (Give the
   # name only. Some countries may have NULL gdp values)
   execute(<<-SQL)
+  
   SQL
 end
 

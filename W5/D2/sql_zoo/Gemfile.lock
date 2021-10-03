@@ -17,11 +17,11 @@ GEM
     rspec-support (3.1.2)
 
 PLATFORMS
-  ruby
+  x86_64-darwin-20
 
 DEPENDENCIES
   pg
   rspec (~> 3.1.0)
 
 BUNDLED WITH
-   2.1.4
+   2.2.27

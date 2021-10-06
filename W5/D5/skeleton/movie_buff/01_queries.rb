@@ -24,7 +24,7 @@ def harrison_ford
   # appeared but not as a lead actor
   Movie
     .select(:id, :title)
-    .left_outer_joins(:actors)
+    .joins(:actors)
     .where("actors.name = 'Harrison Ford' AND castings.ord != 1")
 end
 

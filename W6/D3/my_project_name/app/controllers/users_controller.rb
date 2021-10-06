@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  def index
-    render plain: "im the index"
+  def edit
+    # user = User.find(params[:id])
+    render json: params
   end
 end

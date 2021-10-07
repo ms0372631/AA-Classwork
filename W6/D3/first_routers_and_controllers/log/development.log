@@ -1488,3 +1488,209 @@ Migrating to CreateUsers (20211007000958)
   ↳ bin/rails:9
   [1m[35m (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
   ↳ bin/rails:9
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:9
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (2.9ms)[0m  [1m[32mINSERT INTO "users" ("name", "email") VALUES ($1, $2) RETURNING "id"[0m  [["name", "bob"], ["email", "skkajs@gmail.com"]]
+  [1m[35m (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.4ms)[0m  [1m[32mINSERT INTO "users" ("name", "email") VALUES ($1, $2) RETURNING "id"[0m  [["name", "jacky"], ["email", "ssdajs@gmail.com"]]
+  [1m[35m (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (0.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "email") VALUES ($1, $2) RETURNING "id"[0m  [["name", "joy"], ["email", "s23ajs@gmail.com"]]
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/users" for ::1 at 2021-10-07 10:28:57 -0700
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ /Users/alanchiu/.rbenv/versions/2.5.1/lib/ruby/gems/2.5.0/gems/activerecord-5.2.6/lib/active_record/log_subscriber.rb:98
+Processing by UsersController#index as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh"}
+  [1m[36mUser Load (1.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/users_controller.rb:4
+Completed 200 OK in 24ms (Views: 6.6ms | ActiveRecord: 8.3ms)
+
+
+Started POST "/users?name=Luis&email=sdska@gmail.com" for ::1 at 2021-10-07 10:32:17 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "name"=>"Luis", "email"=>"sdska@gmail.com"}
+Completed 400 Bad Request in 7ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: user):
+  
+app/controllers/users_controller.rb:13:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:33:20 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 19ms (ActiveRecord: 5.6ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?users[name]=Luis&users[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:33:45 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "users"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+Completed 400 Bad Request in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: user):
+  
+app/controllers/users_controller.rb:13:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:34:32 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 34ms (ActiveRecord: 11.3ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[:name]=Luis&user[:email]=sdska@gmail.com" for ::1 at 2021-10-07 10:35:56 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{":name"=>"Luis", ":email"=>"sdska@gmail.com"}}
+Unpermitted parameters: ::name, ::email
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 14.0ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: nil, email: nil>):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:39:13 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.1ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 19ms (ActiveRecord: 6.5ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com&user[id]=4" for ::1 at 2021-10-07 10:40:06 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com", "id"=>"4"}}
+Unpermitted parameter: :id
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 20ms (ActiveRecord: 7.4ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:43:29 -0700
+  
+SyntaxError (/Users/alanchiu/Desktop/AA/AA-Classwork/W6/D3/first_routers_and_controllers/app/controllers/users_controller.rb:17: syntax error, unexpected tSYMBEG, expecting keyword_end
+...on: user.errors.full.messages :status :unprocessable_entity
+...                              ^
+/Users/alanchiu/Desktop/AA/AA-Classwork/W6/D3/first_routers_and_controllers/app/controllers/users_controller.rb:19: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/controllers/users_controller.rb:17: syntax error, unexpected tSYMBEG, expecting keyword_end
+app/controllers/users_controller.rb:19: syntax error, unexpected end-of-input, expecting keyword_end
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:44:10 -0700
+  
+SyntaxError (/Users/alanchiu/Desktop/AA/AA-Classwork/W6/D3/first_routers_and_controllers/app/controllers/users_controller.rb:17: syntax error, unexpected tLABEL, expecting keyword_end
+...er.errors.full.messages status: :unprocessable_entity
+...                        ^~~~~~~
+/Users/alanchiu/Desktop/AA/AA-Classwork/W6/D3/first_routers_and_controllers/app/controllers/users_controller.rb:19: syntax error, unexpected end-of-input, expecting keyword_end):
+  
+app/controllers/users_controller.rb:17: syntax error, unexpected tLABEL, expecting keyword_end
+app/controllers/users_controller.rb:19: syntax error, unexpected end-of-input, expecting keyword_end
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:44:30 -0700
+  
+SyntaxError (/Users/alanchiu/Desktop/AA/AA-Classwork/W6/D3/first_routers_and_controllers/app/controllers/users_controller.rb:17: syntax error, unexpected tLABEL, expecting keyword_end
+...er.errors.full.messages status: :unprocessable_entity
+...                        ^~~~~~~):
+  
+app/controllers/users_controller.rb:17: syntax error, unexpected tLABEL, expecting keyword_end
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:45:01 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.3ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 31ms (ActiveRecord: 9.3ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:46:07 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.4ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 500 Internal Server Error in 40ms (ActiveRecord: 12.8ms)
+
+
+  
+NoMethodError (undefined method `user' for #<User id: nil, name: "Luis", email: "sdska@gmail.com">):
+  
+app/controllers/users_controller.rb:14:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:46:45 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+Completed 400 Bad Request in 10ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionController::ParameterMissing (param is missing or the value is empty: users):
+  
+app/controllers/users_controller.rb:13:in `create'
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:48:22 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[36mUser Create (3.3ms)[0m  [1m[32mINSERT INTO "users" ("name", "email") VALUES ($1, $2) RETURNING "id"[0m  [["name", "Luis"], ["email", "sdska@gmail.com"]]
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (1.7ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 200 OK in 38ms (Views: 0.9ms | ActiveRecord: 15.9ms)
+
+
+Started POST "/users?user[name]=Luis&user[email]=sdska@gmail.com" for ::1 at 2021-10-07 10:50:18 -0700
+Processing by UsersController#create as */*
+  Parameters: {"some_category"=>{"a_key"=>"another value", "a_second_key"=>"yet another value", "inner_inner_hash"=>{"key"=>"value"}}, "something_else"=>"aaahhhhh", "user"=>{"name"=>"Luis", "email"=>"sdska@gmail.com"}}
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/users_controller.rb:14
+  [1m[36mUser Exists (1.2ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."name" = $1 LIMIT $2[0m  [["name", "Luis"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:14
+  [1m[36mUser Exists (0.5ms)[0m  [1m[34mSELECT  1 AS one FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "sdska@gmail.com"], ["LIMIT", 1]]
+  ↳ app/controllers/users_controller.rb:14
+  [1m[35m (0.2ms)[0m  [1m[31mROLLBACK[0m
+  ↳ app/controllers/users_controller.rb:14
+Completed 422 Unprocessable Entity in 42ms (ActiveRecord: 7.2ms)
+
+
+  
+ActiveRecord::RecordInvalid (Validation failed: Name has already been taken, Email has already been taken):
+  
+app/controllers/users_controller.rb:14:in `create'

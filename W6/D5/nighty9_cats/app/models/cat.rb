@@ -1,9 +1,7 @@
-
 require 'action_view'
 
 class Cat < ApplicationRecord
-
-    ActionView::Helper::DataHelper
+  include ActionView::Helpers::DateHelper
 
     COLORS = ["black", "white", "brown", "grey", "orange", "blue"]
 

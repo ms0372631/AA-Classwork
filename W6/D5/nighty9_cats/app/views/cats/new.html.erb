@@ -1,6 +1,6 @@
 <h1> Add a Cat to the Collection <h1>
 
-<form action="cats_url" method="POST">
+<form action="<%= cats_url %>" method="post">
 
 <label for="name">Name</label>
 <input id="name" type="string" name="cats[name]">
@@ -17,6 +17,6 @@
 <label for="description">Description</label>
 <input id="description" type="text" name="cats[description]">
 
-<input type="submit" value="submit">
+<input type="submit" value="Create Cat"/>
 
 </form>

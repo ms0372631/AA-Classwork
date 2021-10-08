@@ -1,7 +1,7 @@
-class UsersController < ApplicationController
+class ArtistsController < ApplicationController
 
     def create
-        user = User.new(user_params)
+        user = Artist.new(user_params)
         if user.save
             render json: user
         else
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     end
 
     def destroy
-        user = User.find(params[:id])
+        user = Artist.find(params[:id])
         if user.destroy
 
         render json: user
@@ -19,17 +19,17 @@ class UsersController < ApplicationController
     end
 
     def index
-        users = User.all
+        users = Artist.all
         render json: users
     end
 
     def show
-        user = User.find(params[:id])
+        user = Artist.find(params[:id])
         render json: user
     end
 
-    def updated
-        user = User.find(params[:id])
+    def update
+        user = Artist.find(params[:id])
         if user.update(user_params)
             render json: user
         else
@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     end
 
 
-    priavte:
+    private
 
     def user_params
         params.require(:artist).permit(:username)

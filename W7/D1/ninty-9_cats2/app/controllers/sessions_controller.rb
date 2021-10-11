@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
     @user = User.find_by_credentials(params[:user][:username],params[:user][:password])
     if @user
       login(@user)
-      Session[:session_token] = User.reset_session_token!
       redirect_to users_url
     else
       render json: ['Invalid Username or Password']
@@ -16,7 +15,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-
+    logout
   end
 
 end

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <title>NinetyNineCats</title>
@@ -9,6 +10,19 @@
   </head>
 
   <body>
-    <%= yield %>
+  <%= yield %>
+    <h1>UserName</h1>
+      <% if logged_in?%>
+      <h2>Hello! <%=current_user.username%></h2>
+    <form action="<%=session_url%>" method= "POST">
+      <input type="hidden" name = "_method" value = "delete">
+      <input type = "submit" value = "logout">
+      </form>
+      <% else %>
+      <a href="<%=new_user_url%>">Sign Up!</a>
+      <br>
+      <a href="<%=new_session_url%>">Log In!</a>
+      <% end%>
+    
   </body>
 </html>

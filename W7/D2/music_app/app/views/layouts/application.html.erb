@@ -10,6 +10,38 @@
   </head>
 
   <body>
+    <header>
+      <h1>TROLL</h1>
+        <% if logged_in? %>
+          <h2> Hello, <%= current_user.username %> </h2>
+          <form action="<%= session_url" %>" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <%= auth_token%>
+            <input type="submit" value="Log Out">
+          </from>
+        <% else %>
+          <a href="<%= new_user_url %>">Sign Up</a>
+          <br>
+          <a href="<%= new_session_url %>"Log In</a>
+        <% end %>
     <%= yield %>
+
+    <% if flash[:messages] %>
+      <ol>
+        <% flash[:messages].each do |message| %>
+        <li class="message"><%= message %></li>
+      <% end %>
+      <ol/>
+    <% end %>
+
+    <%= yield%>
+
+    <% if flash[:errors] %>
+      <ol>
+        <% flash[:errors].each do |error| %>
+        <li class="error"><%= error %></li>
+      <% end %>
+      <ol/>
+    <% end %>
   </body>
 </html>

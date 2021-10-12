@@ -18,6 +18,7 @@ class CatsController < ApplicationController
     @cat = Cat.new(cat_params)
     if @cat.save
       redirect_to cat_url(@cat)
+      Cat.user_id = @cat.user_id
     else
       flash.now[:errors] = @cat.errors.full_messages
       render :new
@@ -25,7 +26,8 @@ class CatsController < ApplicationController
   end
 
   def edit
-    @cat = Cat.find(params[:id])
+    @cat = Cat.find(params{:id}])
+    # current_user.cats.where(id)
     render :edit
   end
 
@@ -37,6 +39,13 @@ class CatsController < ApplicationController
       flash.now[:errors] = @cat.errors.full_messages
       render :edit
     end
+  end
+
+  def editor_owns_cat?
+
+  end
+
+
   end
 
   private

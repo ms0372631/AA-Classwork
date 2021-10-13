@@ -1,0 +1,25 @@
+<% if action == :show %>
+  <a href="<%= bands_url %>"> <!-- users_url = "/users" : RAILS auto generated url helper METHOD -->
+    Albums Index
+  </a>
+<% elsif action == :index %>
+  <a href="<%= band_url(band) %>">
+    <%= album.title %>'s playlist
+  </a>
+<% end %>
+
+<ul>
+  <li><%= band.title %></li>
+  <li><%= band.year %></li>
+  <li><%= band_type ? "Studio" : "Live" %></li>
+  <li>
+    <a href="<%= edit_band_url(band) %>">Edit Album</a>
+  </li>
+  <li>
+    <form action="<%= band_url(band) %>" method="POST" >
+      <%= auth_token %>
+      <input type="hidden" name="_method" value="DELETE"/>
+      <input type="submit" value="Delete Album" />
+    </form>
+  </li>
+</ul>

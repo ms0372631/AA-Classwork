@@ -1,0 +1,10 @@
+<%= render "album", album: @album, action: :show %>
+
+<h3><%= @albums.username %>'s Activity</h3>
+<ul>
+    <% @albums.tracks.each do |track|%>
+        <li>
+            <%= track %>
+        </li>
+    <% end %>
+</ul>

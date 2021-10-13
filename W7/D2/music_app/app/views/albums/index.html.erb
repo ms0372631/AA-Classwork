@@ -1,0 +1,13 @@
+<h1>Here are all the albums:</h1>
+
+<a href="<%= new_album_url %>">
+    New Album
+</a>
+
+<ul>
+    <% @albums.each do |album| %>
+        <li>
+            <%= render "album", album: album, action: :index %>
+        </li>
+    <% end %>
+</ul>

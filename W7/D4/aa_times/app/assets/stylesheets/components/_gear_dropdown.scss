@@ -1,1 +1,24 @@
 // Use the gear_dropdown.png screenshot as a style guide
+
+.menu {
+  width: 500px;
+  position: relative;
+}
+
+/* drop down code below */
+
+.menu-items {
+  position: absolute;
+  /* bottom: 0; */
+  left: -10px;
+  background-color: beige;
+  display: none;
+}
+
+.menu:hover .menu-items {
+  display: block;
+}
+
+.menu-items li:hover {
+  background-color: lightyellow;
+}

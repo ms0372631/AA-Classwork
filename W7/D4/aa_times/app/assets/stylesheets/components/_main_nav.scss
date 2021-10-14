@@ -1,5 +1,8 @@
 .main-nav {
-
+  display: flex;
+  padding: 10px 10px;
+  align-content: center;
+  position: relative;
 }
 
 .left-nav > ul,
@@ -11,7 +14,9 @@
 
   > ul {
     > li {
-
+      float: left;
+      padding: 10px 20px;
+      position: relative;
     }
   }
 
@@ -25,7 +30,28 @@
   > ul {
 
     > li {
+      float: right;
+      padding: 10px 20px;
+      position: relative;
+    }
+
+    > li:last-of-type {
   
+    }
+  }
+  
+  i {
+
+  }
+}
+
+.bottom_nav {
+  > ul {
+
+    > li {
+      float: center;
+      padding: 10px 20px;
+      position: relative;
     }
 
     > li:last-of-type {

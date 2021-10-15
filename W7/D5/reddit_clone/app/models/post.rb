@@ -8,7 +8,7 @@ class Post < ApplicationRecord
         class_name: :Sub
 
     belongs_to :user,
-        foreign_keY: :user_id,
+        foreign_key: :user_id,
         class_name: :User
 
     

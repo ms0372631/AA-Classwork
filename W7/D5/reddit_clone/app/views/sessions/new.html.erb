@@ -1,7 +1,6 @@
 <h1>Sessions#new</h1>
 
-<a href="<%= new_user_url %>">Create a user</a>
-
+<a href="<%= new_user_url %>">Create a user?</a>
 <form action="<%= session_url %>" method="POST">
     <%= auth_token %>
     <label for="username">Username</label>
@@ -11,5 +10,6 @@
     <input id="password" type="password" name="user[password]" value="">
 
     <input type="submit" value="Log In">
+
 </form>
 

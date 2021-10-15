@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 
   before_action :require_login, only: [:destroy]
+  before_action :require_logout, only: [:new, :create]
 
   def new
     render :new
@@ -13,7 +14,8 @@ class SessionsController < ApplicationController
     )
     if user
       log_in(user)
-      redirect_to users_url
+      render plain: "entered: redirect_to users_url because your session token was saved."
+      #redirect_to users_url
     else
       flash.now[:errors] = ['Invalid username or password']
       render :new

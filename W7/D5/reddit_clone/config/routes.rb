@@ -4,4 +4,6 @@ Rails.application.routes.draw do
   resources :subs
   resources :posts
   resource :session
+
+  root to: "sessions#new"
 end

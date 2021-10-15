@@ -13,7 +13,8 @@ class ApplicationController < ActionController::Base
     end
 
     def require_logout
-        redirect_to users_url if logged_in?
+        render plain: "entered: redirect_to users_url if logged_in? => you have a stored session cookie already, but don't have a main page to redirec to."
+        #redirect_to users_url if logged_in?
     end
 
     def logged_in?

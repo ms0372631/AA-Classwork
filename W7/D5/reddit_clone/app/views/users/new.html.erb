@@ -1,2 +1,13 @@
 <h1>Users#new</h1>
-<p>Find me in app/views/users/new.html.erb</p>
+
+<a href="<%= new_session_url %>"> Already have an account? Login </a>
+
+<form action="<%= users_url %>" method="post">
+    <%= auth_token %>
+    <label id="username">Username</label>
+    <input for="username" type="text" name="user[username]" value="<%= @user.username %>" >
+    <br>
+    <label id="password">Password</label>
+    <input for="password" type="password" name="user[password]" value="" >
+    <input type="submit" value="Sign Up">
+</form>

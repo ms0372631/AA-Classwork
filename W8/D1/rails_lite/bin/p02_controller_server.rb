@@ -4,7 +4,7 @@ require_relative '../lib/controller_base'
 class MyController < ControllerBase
 
   def self.call(env)
-    self.new(env).execute
+    self.new(env).go
   end
 
   attr_reader :req, :res
@@ -15,8 +15,9 @@ class MyController < ControllerBase
   end
 
   def render_content(content, content_type)
+    res['Content-Type'] = content_type
     res.write(content)
-    set_header CONTENT_TYPE, content_type
+    res.finish
     nil
   end
 

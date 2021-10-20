@@ -50,3 +50,21 @@ function deepDup(arr) {
 }
 
 console.log(deepDup([3, [2, 3], [2, 3, 1]]));
+
+function bsearch(arr, target) {
+  if (arr.length == 1 && arr[0] != target)
+    return -1;
+
+  let left = 0;
+  let right = arr.length - 1;
+  let mid = left + ((right - left) / 2);
+
+  if (arr[mid] == target)
+    return mid;
+  else if (arr[mid] < target)
+    return mid + bsearch(arr.slice(mid + 1, right + 1), target);
+  else
+    return bsearch(arr.slice(left, mid), target);
+}
+
+console.log(bsearch([1,2,3], 3));

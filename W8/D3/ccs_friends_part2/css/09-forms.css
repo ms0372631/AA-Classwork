@@ -1,1 +1,53 @@
 /* PHASE 3: Forms */
+.form {
+    margin: 0 0 20px 0;
+    display: flex;
+}
+
+.form-thumb {
+
+}
+
+.form-fieldset {
+    margin: 0 0 0 20px;
+    padding: 19px;
+    width: 500px;
+    background: #eee;
+    border: 1px soild #ccc;
+    border-radius: 5px;
+}
+
+.input {
+    margin: 0 0 20px 0;
+}
+
+.input > label {
+    display: block;
+    font-weight: 700;
+    padding: 0 0 5px 0;
+}
+
+.submit {
+    margin: 20px 0 0 0;
+    padding: 0 0 3px 0;
+}
+
+.submit > button {
+    position: relative;
+    padding: 10px 20px;
+    color: #fff;
+    background: #0c0;
+    font-weight: 700;
+    border-radius: 5px;
+    box-shadow: 0 3px 0 0 #070;
+}
+
+.submit > button:hover {
+    background: #0b0;
+}
+
+.submit > button:active {
+    top: 3px;
+    background: #0a0;
+    box-shadow: none; 
+}

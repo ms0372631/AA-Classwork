@@ -1,2 +1,24 @@
 /* PHASE 2: Thumbs */
 
+.profile-friends {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.profile-friends > li {
+    width: 60px;
+    margin: 0 0 10px 0;
+}
+
+.profile-friends > li:nth-child(3n - 1) {
+    margin: 0 10px 10px 10px;
+}
+
+.thumb {
+    display: block;
+    position: relative;
+    width: 58px;
+    height: 58px;
+    border: 1px solid #000;
+    border-radius: 5px;
+}

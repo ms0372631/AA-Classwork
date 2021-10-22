@@ -39,3 +39,21 @@ function curriedSum(numArgs) {
 
 const apples = curriedSum(4);
 apples(5)(30)(20)(1); // => 56
+
+Function.prototype.curry = function (numArgs) {
+    let arr = [];
+    let func = this;
+    return function _proto_curry(...args) {
+        let new_arr = arr.concat(args);
+        if (new_arr.length >= numArgs) {
+            return func.apply(this, new_arr);
+        }   
+        else {
+            return _proto_curry;
+        }
+    }
+}
+
+const banana = sum.curry(4);
+
+console.log(banana(3)(3)(2)(5));

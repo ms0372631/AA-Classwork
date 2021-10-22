@@ -1,9 +1,9 @@
 
-function sum(...args) {
-    let sum = 0;
-    args.forEach(ele => sum += ele);
-    return sum;
-}
+// function sum(...args) {
+//     let sum = 0;
+//     args.forEach(ele => sum += ele);
+//     return sum;
+// }
 
 function sum() {
     args = Array.from(arguments)
@@ -37,16 +37,19 @@ function curriedSum(numArgs) {
   };
 };
 
-const apples = curriedSum(4);
-apples(5)(30)(20)(1); // => 56
+// const apples = curriedSum(4);
+// apples(5)(30)(20)(1); // => 56
 
 Function.prototype.curry = function (numArgs) {
     let arr = [];
     let func = this;
-    return function _proto_curry(...args) {
-        let new_arr = arr.concat(args);
-        if (new_arr.length >= numArgs) {
-            return func.apply(this, new_arr);
+    return function _proto_curry(args) {
+        // console.log(args)
+        arr.push(args);
+        console.log(arr)
+        if (arr.length === numArgs) {
+            console.log(arr)
+            return func.apply(this, arr);
         }   
         else {
             return _proto_curry;
@@ -54,6 +57,6 @@ Function.prototype.curry = function (numArgs) {
     }
 }
 
-const banana = sum.curry(4);
+const banana = sum.curry(4)(3)(3)(2)(5);
 
-console.log(banana(3)(3)(2)(5));
+console.log(banana);

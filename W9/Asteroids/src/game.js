@@ -9,8 +9,12 @@ function Game(x=200, y=200, num_ast) {
 };
 
 Game.prototype.addAsteroids = function() {
+  const that = this;
   while (this.asteroids.length < this.NUM_ASTEROIDS) {
-    const ast = new Asteroid({ pos: this.randomPosition() });
+    const ast = new Asteroid({ 
+      pos: this.randomPosition(),
+      game: that
+    });
     this.asteroids.push(ast);
   }
 };
@@ -31,6 +35,27 @@ Game.prototype.moveObjects = function () {
   for (let i = 0; i < this.asteroids.length; i++) {
     this.asteroids[i].move();
   }
+};
+
+Game.prototype.wrap = function (pos) {
+  let newPos = [];
+  // reset x
+  if (pos[0] > this.DIM_X || pos[0] < 0) {
+    newPos[0] = 0;
+  }
+  //reset y
+  if (pos[1] > this.DIM_Y || pos[1] < 0) {
+    newPos[1] = 0;
+  }
+
+  if (newPos[0] !== 0) {
+    newPos[0] = pos[0];
+  }
+  if (newPos[1] !== 0) {
+    newPos[1] = pos[1];
+  }
+
+  return newPos;
 };
 
 module.exports = Game;

@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function (event) {
     const canvasEl = document.getElementById('game-canvas');
     const ctx2d = canvasEl.getContext('2d');
     const game = new Game(300, 150,5);
+    console.log(game)
     const game_view = new GameView(game, ctx2d);
     console.log(game_view);
     game_view.start();

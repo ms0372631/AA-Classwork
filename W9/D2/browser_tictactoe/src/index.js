@@ -7,5 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let ttt = document.querySelector(".ttt");
   // let ttt = document.getElementsByClassName(".ttt")
   const view = new View(game, ttt);
-  
+  // let x = ttt.children[0];
+  // for (let i = 0; i < x.children.length; i++) {
+  //   let listItem = x.children[i];
+  //   console.log(listItem)
+  // }
+
+  console.log(game.currentPlayer);
 });

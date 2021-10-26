@@ -5,6 +5,7 @@ class View {
     this.game = game;
     this.el = el;
     this.setupBoard();
+    console.log(this.game.currentPlayer)
   }
 
   setupBoard() {
@@ -19,21 +20,25 @@ class View {
   
   
   bindEvents() {
-    const list = this.el.children[0];
+    let list = this.el.children[0].children;
     for (let i = 0; i < list.length; i++) {
-      const listItem = list[i];
-      listItem.addEventListener("click", this.handleClick);
+      let listItem = list[i];
+      listItem.addEventListener("click", this.handleClick.bind(this));
     }
   }
 
   handleClick(e) {
     let item = e.target;
-    let pos = item.id;
-    pos = pos.split("+");
-    pos.map(elem => Number(elem));
-    item.classList.toggle(this.game.currentPlayer)
-    console.log("clicked")
-    this.game.playMove(pos);
+    let pos = item.id.split("+");
+    let realPos = [];
+    for (let i = 0; i < pos.length; i++) {
+      realPos.push(Number(pos[i]));
+    }
+    item.classList.toggle(this.game.currentPlayer);
+    let text = document.createTextNode(`${this.game.currentPlayer.toUpperCase()}`);
+    item.appendChild(text);
+
+    this.game.playMove(realPos);
   }
 
   makeMove(square) {}

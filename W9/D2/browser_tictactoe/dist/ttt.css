@@ -10,6 +10,10 @@
     background-color: white;
 }
 
+.x:hover, .o:hover {
+    background-color: white;
+}
+
 ul {
     display: flex;
     flex-wrap: wrap;

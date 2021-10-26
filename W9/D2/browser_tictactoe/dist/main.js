@@ -15,7 +15,7 @@
   \**********************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const View = __webpack_require__(/*! ./ttt-view.js */ \"./src/ttt-view.js\");  // require appropriate file\nconst Game = __webpack_require__(/*! ../ttt_node/game.js */ \"./ttt_node/game.js\");  // require appropriate file\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  // Your code here\n  const game = new Game();\n  const view = new View();\n  let ttt = document.querySelector(\".ttt\");\n  ttt.innerHTML = \"<ul></ul>\";\n  let board = document.querySelector(\"ul\");\n  board.style.display = \"flex\";\n  board.style.flexWrap = \"wrap\";\n  board.style.width = \"300px\";\n  board.style.listStyle = \"none\";\n  board.style.border = \"5px solid black\";\n  board.innerHTML = view.setupBoard();\n});\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("const View = __webpack_require__(/*! ./ttt-view.js */ \"./src/ttt-view.js\");  // require appropriate file\nconst Game = __webpack_require__(/*! ../ttt_node/game.js */ \"./ttt_node/game.js\");  // require appropriate file\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  // Your code here\n  const game = new Game();\n  let ttt = document.querySelector(\".ttt\");\n  // let ttt = document.getElementsByClassName(\".ttt\")\n  const view = new View(game, ttt);\n  \n});\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
@@ -25,7 +25,7 @@ eval("const View = __webpack_require__(/*! ./ttt-view.js */ \"./src/ttt-view.js\
   \*************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-eval("const Board = __webpack_require__(/*! ../ttt_node/board */ \"./ttt_node/board.js\");\n\nclass View {\n  constructor(game, el) {}\n\n  setupBoard() {\n    let board = \"\";\n    for (let i = 0; i < 9; i++) {\n      board += \"<li></li>\";\n    }\n    return board;\n  }\n  \n  \n  bindEvents() {}\n\n  handleClick(e) {}\n\n  makeMove(square) {}\n\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
+eval("const Board = __webpack_require__(/*! ../ttt_node/board */ \"./ttt_node/board.js\");\n\nclass View {\n  constructor(game, el) {\n    this.game = game;\n    this.el = el;\n    this.setupBoard();\n  }\n\n  setupBoard() {\n    let board = \"<ul>\";\n    for (let i = 0; i < 9; i++) {\n      board += `<li id='${Math.floor(i / 3)}+${i % 3}'></li>`;\n    }\n    board + \"</ul>\";\n    this.el.innerHTML = board;\n    this.bindEvents();\n  }\n  \n  \n  bindEvents() {\n    const list = this.el.children[0];\n    for (let i = 0; i < list.length; i++) {\n      const listItem = list[i];\n      listItem.addEventListener(\"click\", this.handleClick);\n    }\n  }\n\n  handleClick(e) {\n    let item = e.target;\n    let pos = item.id;\n    pos = pos.split(\"+\");\n    pos.map(elem => Number(elem));\n    item.classList.toggle(this.game.currentPlayer)\n    console.log(\"clicked\")\n    this.game.playMove(pos);\n  }\n\n  makeMove(square) {}\n\n}\n\nmodule.exports = View;\n\n\n//# sourceURL=webpack:///./src/ttt-view.js?");
 
 /***/ }),
 

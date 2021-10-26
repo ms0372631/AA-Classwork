@@ -1,3 +1,21 @@
+/* html, body, figure, figcaption, ul, li, h1 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    text-align: inherit;
+} */
+
+.x, .o {
+    background-color: white;
+}
+
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    width: 300px;
+    list-style: none;
+}
 
 li:hover {
     background-color: yellow;

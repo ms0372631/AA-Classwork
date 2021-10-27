@@ -8,11 +8,21 @@
 
 .x, .o {
     background-color: white;
+    justify-content: center;
+    align-items: center;
 }
 
 .x:hover, .o:hover {
     background-color: white;
 }
+/* 
+.o::after {
+    content: "O";
+}
+
+.x::after {
+    content: "X";
+} */
 
 ul {
     display: flex;

@@ -30,18 +30,26 @@ class View {
   handleClick(e) {
     let item = e.target;
     let pos = item.id.split("+");
+    let cp = this.game.currentPlayer;
     let realPos = [];
     for (let i = 0; i < pos.length; i++) {
       realPos.push(Number(pos[i]));
     }
-    item.classList.toggle(this.game.currentPlayer);
-    let text = document.createTextNode(`${this.game.currentPlayer.toUpperCase()}`);
-    item.appendChild(text);
-
-    this.game.playMove(realPos);
+    try {
+      this.game.playMove(realPos);
+    } catch(e) {
+      alert('this spot is already taken');
+    }
+    item.classList.toggle(cp);
+    // let text = document.createTextNode(`${this.game.currentPlayer.toUpperCase()}`);
+    // item.appendChild(text);
+    
   }
 
-  makeMove(square) {}
+  makeMove(square) {
+
+
+  }
 
 }
 

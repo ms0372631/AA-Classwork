@@ -1,0 +1,25 @@
+/* PHASE 12: Modal */
+.modal {
+  display: block;
+}
+.modal-screen {
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.modal-form {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  margin-left: -220px;
+  width: 360px;
+  padding: 20px;
+  background: #fff;
+  z-index: 3;
+  border-radius: 5px;
+  border: 1px solid #000;
+}

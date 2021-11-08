@@ -4,15 +4,23 @@ import Tile from "./tile";
 export default class Board extends React.Component {
   constructor(props) {
     super(props);
-    let t = new Tile();
-    this.state = {tiles: t};
+    this.state = {};
   }
 
   render() {
     return (
       <div>
         <div>this is the board</div>
-        <p>{this.state.tiles}</p>
+        <div class="board">{
+          this.props.board.grid.map((row, i) => 
+            <div class="row {i}">
+              {row.map((el, j) => 
+                console.log(el)
+              )}
+            </div>
+          )}
+        </div>
+        {/* <p>{this.state.tiles.render()}</p> */}
       </div>
     )
   }

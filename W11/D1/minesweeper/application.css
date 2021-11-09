@@ -1,0 +1,26 @@
+.board {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.board > div > div {background-color:cornsilk;}
+
+.tile {
+  border-style: outset;
+  width: 1em;
+  height: 1em;
+}
+
+.bombed.revealed {
+  border-style: inset;
+  background-color: crimson;
+}
+
+.flagged {
+  border-style: inset;
+  background-color: lightgreen;
+}
+
+.revealed {
+  border-style: inset;
+}

@@ -37,13 +37,15 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-
+ // import * as Minesweeper from "../minesweeper.js";
 
 var Board = /*#__PURE__*/function (_React$Component) {
   _inherits(Board, _React$Component);
 
   var _super = _createSuper(Board);
 
+  // <Board board={this.state.board} updateGame={this.updateGame} />
+  // props has board and updategame function
   function Board(props) {
     var _this;
 
@@ -57,13 +59,20 @@ var Board = /*#__PURE__*/function (_React$Component) {
   _createClass(Board, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, "this is the board"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        "class": "board"
+        className: "board"
       }, this.props.board.grid.map(function (row, i) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-          "class": "row {i}"
+          key: i
         }, row.map(function (el, j) {
-          return console.log(el);
+          var t = _this2.props.board.grid[i][j];
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_tile__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            tile: t,
+            key: j,
+            updateGame: _this2.props.updateGame
+          });
         }));
       })));
     }
@@ -136,7 +145,18 @@ var Game = /*#__PURE__*/function (_React$Component) {
 
   _createClass(Game, [{
     key: "updateGame",
-    value: function updateGame() {}
+    value: function updateGame(tile, reveal_bool) {
+      if (reveal_bool) {
+        tile.explore();
+      } else {
+        tile.toggleFlag();
+      }
+
+      this.setState({
+        board: this.state.board
+      });
+      console.log('rerendered');
+    }
   }, {
     key: "render",
     value: function render() {
@@ -187,13 +207,14 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-
+ // import * as Minesweeper from "../minesweeper.js";
 
 var Tile = /*#__PURE__*/function (_React$Component) {
   _inherits(Tile, _React$Component);
 
   var _super = _createSuper(Tile);
 
+  // props: tile={t}
   function Tile(props) {
     _classCallCheck(this, Tile);
 
@@ -201,9 +222,56 @@ var Tile = /*#__PURE__*/function (_React$Component) {
   }
 
   _createClass(Tile, [{
+    key: "handleClick",
+    value: function handleClick(e) {
+      e.preventDefault();
+      this.props.tile.explore();
+      var reveal = true;
+
+      if (e.altKey) {
+        reveal = false;
+        this.classList('flagged');
+      } else {
+        this.classList.add('explored');
+      }
+
+      this.props.updateGame(this.props.tile, reveal);
+    }
+  }, {
     key: "render",
     value: function render() {
-      return "T";
+      var _this = this;
+
+      // console.log(this.props);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, function () {
+        var t = _this.props.tile;
+
+        if (t.explored && t.adjacentBombCount() > 1) {
+          return (
+            /*#__PURE__*/
+            // passes in e for us
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+              className: "tile explored",
+              onClick: _this.handleClick.bind(_this)
+            }, t.adjacentBombCount())
+          );
+        } else if (t.bombed) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+            className: "tile bombed",
+            onClick: _this.handleClick.bind(_this)
+          });
+        } else if (t.flagged) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+            className: "tile flagged",
+            onClick: _this.handleClick.bind(_this)
+          });
+        } else {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+            className: "tile",
+            onClick: _this.handleClick.bind(_this)
+          });
+        }
+      }());
     }
   }]);
 
@@ -238,7 +306,8 @@ var Tile = /*#__PURE__*/function () {
     this.board = board;
     this.pos = pos;
     this.bombed = false;
-    this.explored = false;
+    this.explored = false; // revealed
+
     this.flagged = false;
   }
 

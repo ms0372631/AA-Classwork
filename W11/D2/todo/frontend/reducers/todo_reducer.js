@@ -12,17 +12,40 @@ const todosReducer = (state = {}, action) => {
 
   switch (action.type) {
     case RECEIVE_TODO:
+      const todoId = action.todo.id;
+      const newTodo = {};
+      newTodo[todoId] = action.todo;
       // nextState looks like... {  }
       // nextState[1] -> now it looks like... { 1: ??? }
       // nextState[1] = something -> now it looks like... { 1: something }
-      nextState[action.todo.id] = action.todo;
-      return nextState;
+      return Object.assign(nextState, newTodo);
     case RECEIVE_TODOS:
-      nextState[action.todos.id] = action.todos;
+      let todos = {};
+      action.todos.forEach((todoObj, i) => {
+        todos[todoObj.id] = todoObj;
+      });
+      return todos;
     default:
       return state;
   }
 }
+
+// const newTodos = [{ id: 1, ...etc }, { id: 2, ...etc }, ...etc];
+
+const initialState = {
+  1: {
+    id: 1,
+    title: "wash car",
+    body: "with soap",
+    done: false
+  },
+  2: {
+    id: 2,
+    title: "wash dog",
+    body: "with shampoo",
+    done: true
+  }
+};
 
 // const todosReducer = (state = {}, action) => {
 //   Object.freeze(state);

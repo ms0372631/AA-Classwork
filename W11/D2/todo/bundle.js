@@ -90,11 +90,13 @@
 /*!************************************!*\
   !*** ./frontend/actions/action.js ***!
   \************************************/
-/*! exports provided: RECEIVE_TODOS, RECEIVE_TODO */
+/*! exports provided: receiveTodo, receiveTodos, RECEIVE_TODOS, RECEIVE_TODO */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTodo", function() { return receiveTodo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTodos", function() { return receiveTodos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TODOS", function() { return RECEIVE_TODOS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TODO", function() { return RECEIVE_TODO; });
 var receiveTodo = function receiveTodo(todo) {
@@ -103,14 +105,12 @@ var receiveTodo = function receiveTodo(todo) {
     todo: todo
   };
 };
-
 var receiveTodos = function receiveTodos(todos) {
   return {
     type: RECEIVE_TODOS,
     todos: todos
   };
 };
-
 var RECEIVE_TODOS = "RECEIVE_TODOS";
 var RECEIVE_TODO = "RECEIVE_TODO";
 
@@ -132,7 +132,7 @@ __webpack_require__.r(__webpack_exports__);
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   todos: _todo_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
-/* harmony default export */ __webpack_exports__["default"] = (rootReducer);
+/* harmony default export */ __webpack_exports__["default"] = (rootReducer); // { id: 3, title: "New Todo" }
 
 /***/ }),
 
@@ -160,17 +160,39 @@ var todosReducer = function todosReducer() {
 
   switch (action.type) {
     case _actions_action__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TODO"]:
-      // nextState looks like... {  }
+      var todoId = action.todo.id;
+      var newTodo = {};
+      newTodo[todoId] = action.todo; // nextState looks like... {  }
       // nextState[1] -> now it looks like... { 1: ??? }
       // nextState[1] = something -> now it looks like... { 1: something }
-      nextState[action.todo.id] = action.todo;
-      return nextState;
+
+      return Object.assign(nextState, newTodo);
 
     case _actions_action__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TODOS"]:
-      nextState[action.todos.id] = action.todos;
+      var todos = {};
+      action.todos.forEach(function (todoObj, i) {
+        todos[todoObj.id] = todoObj;
+      });
+      return todos;
 
     default:
       return state;
+  }
+}; // const newTodos = [{ id: 1, ...etc }, { id: 2, ...etc }, ...etc];
+
+
+var initialState = {
+  1: {
+    id: 1,
+    title: "wash car",
+    body: "with soap",
+    done: false
+  },
+  2: {
+    id: 2,
+    title: "wash dog",
+    body: "with shampoo",
+    done: true
   }
 }; // const todosReducer = (state = {}, action) => {
 //   Object.freeze(state);
@@ -191,7 +213,6 @@ var todosReducer = function todosReducer() {
 //       return state;
 //   }
 // }
-
 
 /* harmony default export */ __webpack_exports__["default"] = (todosReducer);
 
@@ -231,11 +252,14 @@ var configureStore = function configureStore() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
+/* harmony import */ var _actions_action__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./actions/action */ "./frontend/actions/action.js");
+
 
 document.addEventListener("DOMContentLoaded", function () {
   var store = Object(_store_store__WEBPACK_IMPORTED_MODULE_0__["default"])();
-  console.log('shit');
   window.store = store;
+  window.receiveTodo = _actions_action__WEBPACK_IMPORTED_MODULE_1__["receiveTodo"];
+  window.receiveTodos = _actions_action__WEBPACK_IMPORTED_MODULE_1__["receiveTodos"];
 });
 
 /***/ }),

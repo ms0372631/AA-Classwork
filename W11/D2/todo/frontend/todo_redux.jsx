@@ -1,7 +1,10 @@
 import configureStore from "./store/store";
+import {receiveTodo, receiveTodos} from "./actions/action";
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const store = configureStore();
-  console.log('shit');
   window.store = store;
+  window.receiveTodo = receiveTodo;
+  window.receiveTodos = receiveTodos;
 });

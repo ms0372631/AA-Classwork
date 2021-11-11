@@ -1,6 +1,6 @@
 import { RECEIVE_TODO, RECEIVE_TODOS } from "../actions/action";
 
-const todosReducer = (state = {}, action) => {
+const todosReducer = (state = initialState, action) => {
   Object.freeze(state);
   // old state and new state will be compared
   // to figure out what needs to be updated in views

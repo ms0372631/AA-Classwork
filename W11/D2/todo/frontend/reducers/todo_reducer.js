@@ -21,6 +21,8 @@ const todosReducer = (state = initialState, action) => {
       return Object.assign(nextState, newTodo);
     case RECEIVE_TODOS:
       let todos = {};
+      
+      console.log(action);
       action.todos.forEach((todoObj, i) => {
         todos[todoObj.id] = todoObj;
       });

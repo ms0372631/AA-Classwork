@@ -4,36 +4,40 @@ import React from 'react';
 class TodoForm extends React.Component {
   constructor(props) {
     super(props);
+    this.props = props;
     this.state = {
       id: 1,
       title: "",
-      cost: "",
+      body: "",
+      done: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateTitle = this.updateTitle.bind(this);
-    this.updateCost = this.updateCost.bind(this);
+    this.updateBody = this.updateBody.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     let todo = this.state;
+    console.log(this.props);
     this.props.receiveTodo(todo);
     this.setState({
       id: this.uniqueId(),
       title: "",
-      cost: ""
+      body: "",
+      done: false
     });
   }
 
   updateTitle(e) {
     this.setState({
-      title: e.target.title
+      title: e.target.value
     });
   }
 
-  updateCost(e) {
+  updateBody(e) {
     this.setState({
-      cost: e.target.title
+      body: e.target.value
     });
   }
 
@@ -44,14 +48,14 @@ class TodoForm extends React.Component {
   render() {
     return (
       <> 
-        <h1>Add a new List</h1>
+        <h1>Add a new Todo List</h1>
         <form onSubmit={this.handleSubmit}>
           <label>Title
-            <input type="text" onChange={this.updateTitle} value={this.state.title} />
+            <input type="text" onChange={this.updateTitle} value={this.state.title}/>
           </label>
           <br />
-          <label>Cost
-            <input type="text" onChange={this.updateCost} value={this.state.cost}/>
+          <label>Body
+            <input type="text" onChange={this.updateBody} value={this.state.body}/>
           </label>
           <br />
           <input type="submit" value="submit"/>

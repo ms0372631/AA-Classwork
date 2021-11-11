@@ -213,14 +213,16 @@ var TodoForm = /*#__PURE__*/function (_React$Component) {
     _classCallCheck(this, TodoForm);
 
     _this = _super.call(this, props);
+    _this.props = props;
     _this.state = {
       id: 1,
       title: "",
-      cost: ""
+      body: "",
+      done: false
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.updateTitle = _this.updateTitle.bind(_assertThisInitialized(_this));
-    _this.updateCost = _this.updateCost.bind(_assertThisInitialized(_this));
+    _this.updateBody = _this.updateBody.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -229,25 +231,27 @@ var TodoForm = /*#__PURE__*/function (_React$Component) {
     value: function handleSubmit(e) {
       e.preventDefault();
       var todo = this.state;
+      console.log(this.props);
       this.props.receiveTodo(todo);
       this.setState({
         id: this.uniqueId(),
         title: "",
-        cost: ""
+        body: "",
+        done: false
       });
     }
   }, {
     key: "updateTitle",
     value: function updateTitle(e) {
       this.setState({
-        title: e.target.title
+        title: e.target.value
       });
     }
   }, {
-    key: "updateCost",
-    value: function updateCost(e) {
+    key: "updateBody",
+    value: function updateBody(e) {
       this.setState({
-        cost: e.target.title
+        body: e.target.value
       });
     }
   }, {
@@ -258,16 +262,16 @@ var TodoForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Add a new List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Add a new Todo List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Title", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         onChange: this.updateTitle,
         value: this.state.title
-      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Cost", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Body", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
-        onChange: this.updateCost,
-        value: this.state.cost
+        onChange: this.updateBody,
+        value: this.state.body
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "submit",
         value: "submit"
@@ -329,7 +333,7 @@ var TodoList = function TodoList(props) {
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Here is my Todo List for 2022"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_todo_list_todo_list_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
     props: props
   })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_todo_list_todo_from__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    recieveTodo: props.recieveTodo
+    receiveTodo: props.receiveTodo
   })));
 };
 
@@ -454,6 +458,7 @@ var todosReducer = function todosReducer() {
 
     case _actions_action__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TODOS"]:
       var todos = {};
+      console.log(action);
       action.todos.forEach(function (todoObj, i) {
         todos[todoObj.id] = todoObj;
       });

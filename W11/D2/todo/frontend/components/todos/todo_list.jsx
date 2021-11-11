@@ -10,7 +10,7 @@ const TodoList = (props) => {
         <TodoListItem props={props}/>
       </ul>
       <ul>
-        <TodoForm recieveTodo={props.recieveTodo}/>
+        <TodoForm receiveTodo={props.receiveTodo}/>
       </ul>
     </div>
   )

@@ -10,10 +10,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchtoPros = (dispatch) => ({
-  receiveTodo: (todo) => dispatch(receiveTodos(todo))
+const mapDispatchtoProps = (dispatch) => ({
+  receiveTodo: (todo) => dispatch(receiveTodo(todo))
 });
 
 
-const ListContainer = connect(mapStateToProps, mapDispatchtoPros)(todo_list);
+const ListContainer = connect(mapStateToProps, mapDispatchtoProps)(todo_list);
 export default ListContainer;

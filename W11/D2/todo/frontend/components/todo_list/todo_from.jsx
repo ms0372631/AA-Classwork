@@ -6,7 +6,7 @@ class TodoForm extends React.Component {
     super(props);
     this.props = props;
     this.state = {
-      id: 1,
+      id: this.uniqueId(),
       title: "",
       body: "",
       done: false

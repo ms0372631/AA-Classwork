@@ -20,7 +20,7 @@ const todosReducer = (state = initialState, action) => {
       // nextState[1] = something -> now it looks like... { 1: something }
       return Object.assign(nextState, newTodo);
     case RECEIVE_TODOS:
-      let todos = {};
+      let todos = [];
       
       console.log(action);
       action.todos.forEach((todoObj, i) => {

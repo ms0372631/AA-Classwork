@@ -215,7 +215,7 @@ var TodoForm = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.props = props;
     _this.state = {
-      id: 1,
+      id: _this.uniqueId(),
       title: "",
       body: "",
       done: false
@@ -367,15 +367,15 @@ var mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-var mapDispatchtoPros = function mapDispatchtoPros(dispatch) {
+var mapDispatchtoProps = function mapDispatchtoProps(dispatch) {
   return {
     receiveTodo: function receiveTodo(todo) {
-      return dispatch(Object(_actions_action__WEBPACK_IMPORTED_MODULE_1__["receiveTodos"])(todo));
+      return dispatch(Object(_actions_action__WEBPACK_IMPORTED_MODULE_1__["receiveTodo"])(todo));
     }
   };
 };
 
-var ListContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchtoPros)(_todo_list__WEBPACK_IMPORTED_MODULE_2__["default"]);
+var ListContainer = Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchtoProps)(_todo_list__WEBPACK_IMPORTED_MODULE_2__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (ListContainer);
 
 /***/ }),
@@ -457,7 +457,7 @@ var todosReducer = function todosReducer() {
       return Object.assign(nextState, newTodo);
 
     case _actions_action__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_TODOS"]:
-      var todos = {};
+      var todos = [];
       console.log(action);
       action.todos.forEach(function (todoObj, i) {
         todos[todoObj.id] = todoObj;

@@ -105,7 +105,8 @@ function addNumbers(sum, numsLeft, completionCallback) {
         //    continue the inner loop. You'll want to increment i for the
         //    next call, and possibly switch madeAnySwaps if you did swap.
         if (i === (arr.length - 1)) {  
-         return outerBubbleSortLoop(madeAnySwaps);
+          outerBubbleSortLoop(madeAnySwaps);
+          return;
           
         }
         

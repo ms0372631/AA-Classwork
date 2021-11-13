@@ -1392,7 +1392,7 @@ ActiveRecord::Base.transaction do
       'name' => 'Mew',
       'attack' => 100,
       'defense' => 100,
-      'poke_type' => 'psychic,'
+      'poke_type' => 'psychic',
       'moves' => [
          'pound',
          'mega punch',

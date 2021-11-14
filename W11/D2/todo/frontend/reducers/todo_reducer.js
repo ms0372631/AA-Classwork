@@ -1,4 +1,6 @@
-import { RECEIVE_TODO, RECEIVE_TODOS } from "../actions/action";
+import { bindActionCreators } from "redux";
+import { RECEIVE_TODO, RECEIVE_TODOS, REMOVE_TODO } from "../actions/todo_actions";
+
 
 const todosReducer = (state = initialState, action) => {
   Object.freeze(state);
@@ -19,18 +21,18 @@ const todosReducer = (state = initialState, action) => {
       // nextState[1] -> now it looks like... { 1: ??? }
       // nextState[1] = something -> now it looks like... { 1: something }
       return Object.assign(nextState, newTodo);
+    case REMOVE_TODO:
+      delete nextState[action.todo.id];
+      return nextState;
     case RECEIVE_TODOS:
-      let todos = [];
-      
-      console.log(action);
-      action.todos.forEach((todoObj, i) => {
-        todos[todoObj.id] = todoObj;
+      action.todos.forEach(todo => {
+        nextState[todo.id] = todo;
       });
-      return todos;
+      return nextState;
     default:
       return state;
   }
-}
+};
 
 // const newTodos = [{ id: 1, ...etc }, { id: 2, ...etc }, ...etc];
 

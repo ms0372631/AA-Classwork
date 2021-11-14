@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-class TodoForm extends React.Component {
+class StepForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,11 +15,14 @@ class TodoForm extends React.Component {
     this.updateBody = this.updateBody.bind(this);
   }
 
+  uniqueId() {
+    return new Date().getTime();
+  }
+
   handleSubmit(e) {
     e.preventDefault();
-    let todo = this.state;
-    console.log(this.props);
-    this.props.receiveTodo(todo);
+    let step = {};
+    this.props.recieveStep(step);
     this.setState({
       id: this.uniqueId(),
       title: "",
@@ -40,28 +43,15 @@ class TodoForm extends React.Component {
     });
   }
 
-  uniqueId() {
-    return new Date().getTime();
-  }
-
   render() {
     return (
-      <> 
-        <h1>Add a new Todo List</h1>
+      <>  
         <form onSubmit={this.handleSubmit}>
-          <label>Title
-            <input type="text" onChange={this.updateTitle} value={this.state.title}/>
-          </label>
-          <br />
-          <label>Body
-            <input type="text" onChange={this.updateBody} value={this.state.body}/>
-          </label>
-          <br />
-          <input type="submit" value="submit"/>
+          <input type="text" onChange={this.updateTitle} />
         </form>
       </>
     );
   }
 }
 
-export default TodoForm;
+export default StepForm;

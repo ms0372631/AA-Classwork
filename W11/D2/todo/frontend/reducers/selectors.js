@@ -1,9 +1,15 @@
-import rootReducer from "./root_reducer";
-import todosReducer from "./todo_reducer";
 
-const allTodos = (state) => {
+
+export const allTodos = (state) => {
   let todosArray = Object.values(state.todos);
   return todosArray;
 };
 
-export default allTodos;
+export const stepsByTodoId = (state, todoId) => {
+  let stepsArray = [];
+  Objeact.values(state.steps).forEach(step => {
+    if (step.id === todoId)
+      stepsArray.push(step);
+  });
+};
+

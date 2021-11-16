@@ -146,6 +146,65 @@ var unLikeChirp = exports.unLikeChirp = function unLikeChirp(id) {
 
 /***/ }),
 
+/***/ "./frontend/actions/session.js":
+/*!*************************************!*\
+  !*** ./frontend/actions/session.js ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.logout = exports.login = exports.createNewUser = exports.logoutCurrentUser = exports.LOGOUT_CURRENT_USER = exports.RECEIVE_CURRENT_USER = undefined;
+
+var _session = __webpack_require__(/*! ../utils/session */ "./frontend/utils/session.js");
+
+var RECEIVE_CURRENT_USER = exports.RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
+var LOGOUT_CURRENT_USER = exports.LOGOUT_CURRENT_USER = 'LOGOUT_CURRENT_USER';
+
+var receiveCurrentUser = function receiveCurrentUser(user) {
+  return {
+    type: RECEIVE_CURRENT_USER,
+    user: user
+  };
+};
+
+var logoutCurrentUser = exports.logoutCurrentUser = function logoutCurrentUser() {
+  return {
+    type: LOGOUT_CURRENT_USER
+  };
+};
+
+var createNewUser = exports.createNewUser = function createNewUser(formUser) {
+  return function (dispatch) {
+    return (0, _session.postUser)(formUser).then(function (user) {
+      return dispatch(receiveCurrentUser(user));
+    });
+  };
+};
+
+var login = exports.login = function login(formUser) {
+  return function (dispatch) {
+    return (0, _session.postSession)(formUser).then(function (user) {
+      return dispatch(receiveCurrentUser(user));
+    });
+  };
+};
+
+var logout = exports.logout = function logout() {
+  return function (disptach) {
+    return (0, _session.deleteSession)().then(function () {
+      return disptach(logoutCurrentUser());
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/bluebird.jsx":
 /*!*******************************!*\
   !*** ./frontend/bluebird.jsx ***!
@@ -222,11 +281,17 @@ var _chirp_index_container = __webpack_require__(/*! ./chirps/chirp_index_contai
 
 var _chirp_index_container2 = _interopRequireDefault(_chirp_index_container);
 
+var _signup_container = __webpack_require__(/*! ./session/signup_container */ "./frontend/components/session/signup_container.js");
+
+var _signup_container2 = _interopRequireDefault(_signup_container);
+
 var _home = __webpack_require__(/*! ./home/home */ "./frontend/components/home/home.jsx");
 
 var _home2 = _interopRequireDefault(_home);
 
 var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+var _route = __webpack_require__(/*! ../utils/route.util */ "./frontend/utils/route.util.jsx");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -236,7 +301,8 @@ exports.default = function () {
     null,
     _react2.default.createElement(_reactRouterDom.Route, { path: '/', component: _nav_bar_container2.default }),
     _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _home2.default }),
-    _react2.default.createElement(_reactRouterDom.Route, { path: '/chirps', component: _chirp_index_container2.default })
+    _react2.default.createElement(_route.ProtectedRoute, { path: '/chirps', component: _chirp_index_container2.default }),
+    _react2.default.createElement(_route.AuthRoute, { path: '/signup', component: _signup_container2.default })
   );
 };
 
@@ -502,7 +568,21 @@ exports.default = function (_ref) {
   var currentUser = _ref.currentUser,
       logout = _ref.logout;
 
-  var display = _react2.default.createElement(
+  var display = currentUser ? _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'p',
+      null,
+      'Hello, ',
+      currentUser.username
+    ),
+    _react2.default.createElement(
+      'button',
+      { onClick: logout },
+      'Log Out'
+    )
+  ) : _react2.default.createElement(
     'div',
     null,
     _react2.default.createElement(
@@ -559,24 +639,29 @@ var _nav_bar = __webpack_require__(/*! ./nav_bar */ "./frontend/components/nav_b
 
 var _nav_bar2 = _interopRequireDefault(_nav_bar);
 
+var _session = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    currentUser: state.session.currentUser
+  };
+};
 
 // Comment this back in after you have built the login functionality
 
-// import { logout } from '../../actions/session';
-
-// const mapStateToProps = state => ({
-//   currentUser: state.session.currentUser,
-// });
-
-// const mapDispatchToProps = dispatch => ({
-//   logout: () => dispatch(logout()),
-// });
-
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    logout: function logout() {
+      return dispatch((0, _session.logout)());
+    }
+  };
+};
 
 // Comment this out when you have built the login functionality
-var mapStateToProps = null;
-var mapDispatchToProps = null;
+// const mapStateToProps = null;
+// const mapDispatchToProps = null;
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_nav_bar2.default);
 
@@ -703,6 +788,171 @@ exports.default = function (_ref) {
 
 /***/ }),
 
+/***/ "./frontend/components/session/signup.jsx":
+/*!************************************************!*\
+  !*** ./frontend/components/session/signup.jsx ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Signup = function (_React$Component) {
+  _inherits(Signup, _React$Component);
+
+  function Signup(props) {
+    _classCallCheck(this, Signup);
+
+    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
+
+    _this.state = {
+      username: '',
+      email: '',
+      password: ''
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
+  }
+
+  _createClass(Signup, [{
+    key: 'handleInput',
+    value: function handleInput(type) {
+      var _this2 = this;
+
+      return function (e) {
+        _this2.setState(_defineProperty({}, type, e.target.value));
+      };
+    }
+  }, {
+    key: 'handleSubmit',
+    value: function handleSubmit(e) {
+      var _this3 = this;
+
+      e.preventDefault();
+      this.props.createNewUser(this.state).then(function () {
+        return _this3.props.history.push('/chirps');
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'session-form' },
+        _react2.default.createElement(
+          'h2',
+          null,
+          'Sign Up!'
+        ),
+        _react2.default.createElement(
+          'form',
+          null,
+          _react2.default.createElement(
+            'label',
+            null,
+            'Username:',
+            _react2.default.createElement('input', {
+              type: 'text',
+              value: this.state.username,
+              onChange: this.handleInput('username')
+            })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Email:',
+            _react2.default.createElement('input', {
+              type: 'text',
+              value: this.state.email,
+              onChange: this.handleInput('email')
+            })
+          ),
+          _react2.default.createElement(
+            'label',
+            null,
+            'Password:',
+            _react2.default.createElement('input', {
+              type: 'text',
+              value: this.state.password,
+              onChange: this.handleInput('password')
+            })
+          ),
+          _react2.default.createElement(
+            'button',
+            { onClick: this.handleSubmit },
+            'Sign Up'
+          )
+        )
+      );
+    }
+  }]);
+
+  return Signup;
+}(_react2.default.Component);
+
+;
+
+exports.default = Signup;
+
+/***/ }),
+
+/***/ "./frontend/components/session/signup_container.js":
+/*!*********************************************************!*\
+  !*** ./frontend/components/session/signup_container.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _session = __webpack_require__(/*! ../../actions/session */ "./frontend/actions/session.js");
+
+var _signup = __webpack_require__(/*! ./signup */ "./frontend/components/session/signup.jsx");
+
+var _signup2 = _interopRequireDefault(_signup);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createNewUser: function createNewUser(formUser) {
+      return dispatch((0, _session.createNewUser)(formUser));
+    }
+  };
+};
+
+exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(_signup2.default);
+
+/***/ }),
+
 /***/ "./frontend/reducers/chirps.js":
 /*!*************************************!*\
   !*** ./frontend/reducers/chirps.js ***!
@@ -762,6 +1012,10 @@ var _chirps = __webpack_require__(/*! ./chirps */ "./frontend/reducers/chirps.js
 
 var _chirps2 = _interopRequireDefault(_chirps);
 
+var _session = __webpack_require__(/*! ./session */ "./frontend/reducers/session.js");
+
+var _session2 = _interopRequireDefault(_session);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
@@ -790,11 +1044,53 @@ var _entities = __webpack_require__(/*! ./entities */ "./frontend/reducers/entit
 
 var _entities2 = _interopRequireDefault(_entities);
 
+var _session = __webpack_require__(/*! ./session */ "./frontend/reducers/session.js");
+
+var _session2 = _interopRequireDefault(_session);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _redux.combineReducers)({
-  entities: _entities2.default
+  entities: _entities2.default,
+  session: _session2.default
 });
+
+/***/ }),
+
+/***/ "./frontend/reducers/session.js":
+/*!**************************************!*\
+  !*** ./frontend/reducers/session.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _session = __webpack_require__(/*! ../actions/session */ "./frontend/actions/session.js");
+
+var _nullSession = {
+  currentUser: null
+};
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _nullSession;
+  var action = arguments[1];
+
+  Object.freeze(state);
+  switch (action.type) {
+    case _session.RECEIVE_CURRENT_USER:
+      return Object.assign({}, { currentUser: action.user });
+    case _session.LOGOUT_CURRENT_USER:
+      return _nullSession;
+    default:
+      return state;
+  }
+};
 
 /***/ }),
 
@@ -899,6 +1195,104 @@ var deleteLikeFromChirp = exports.deleteLikeFromChirp = function deleteLikeFromC
     url: '/api/likes',
     method: 'DELETE',
     data: { id: id }
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/utils/route.util.jsx":
+/*!***************************************!*\
+  !*** ./frontend/utils/route.util.jsx ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ProtectedRoute = exports.AuthRoute = undefined;
+
+var _react = __webpack_require__(/*! react */ "./node_modules/react/react.js");
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+
+var _reactRouterDom = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/es/index.js");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    loggedIn: Boolean(state.session.currentUser)
+  };
+};
+
+var Auth = function Auth(_ref) {
+  var loggedIn = _ref.loggedIn,
+      path = _ref.path,
+      Component = _ref.component;
+  return _react2.default.createElement(_reactRouterDom.Route, {
+    path: path,
+    render: function render(props) {
+      return loggedIn ? _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' }) : _react2.default.createElement(Component, props);
+    }
+  });
+};
+
+var Protected = function Protected(_ref2) {
+  var loggedIn = _ref2.loggedIn,
+      path = _ref2.path,
+      Component = _ref2.component;
+  return _react2.default.createElement(_reactRouterDom.Route, {
+    path: path,
+    render: function render(props) {
+      return loggedIn ? _react2.default.createElement(Component, props) : _react2.default.createElement(_reactRouterDom.Redirect, { to: '/signup' });
+    }
+  });
+};
+
+var AuthRoute = exports.AuthRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Auth));
+var ProtectedRoute = exports.ProtectedRoute = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps)(Protected));
+
+/***/ }),
+
+/***/ "./frontend/utils/session.js":
+/*!***********************************!*\
+  !*** ./frontend/utils/session.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var postUser = exports.postUser = function postUser(user) {
+  return $.ajax({
+    url: '/api/users',
+    method: 'Post',
+    data: { user: user }
+  });
+};
+
+var postSession = exports.postSession = function postSession(user) {
+  return $.ajax({
+    url: '/api/session',
+    method: 'POST',
+    data: { user: user }
+  });
+};
+
+var deleteSession = exports.deleteSession = function deleteSession() {
+  return $.ajax({
+    url: '/api/session',
+    method: 'DELETE'
   });
 };
 
